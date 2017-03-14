@@ -14,6 +14,7 @@ export default createLogic({
     const lat = center.lat;
     const lon = center.lon;
     const newUrl = `/${mapType}${overlays.join('')}/${zoom}/${lat.toFixed(6)}/${lon.toFixed(6)}`;
+    console.log("UUUUUUUUUUUUUUUUUUUUUUUU", newUrl);
     history.replace(newUrl);
   }
 });

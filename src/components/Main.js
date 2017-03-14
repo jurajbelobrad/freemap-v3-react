@@ -25,17 +25,23 @@ import 'fm3/styles/main.scss';
 
 const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 
+let n = 10;
+
 class Main extends React.Component {
 
   componentWillMount() {
-    this.setupMapFromUrl(this.props.params);
+    this.setupMapFromUrl(this.props.match);
   }
 
   componentWillReceiveProps(newProps) {
-    this.setupMapFromUrl(newProps.params);
+    if (n-- > 0) {
+      this.setupMapFromUrl(newProps.match);
+    }
   }
 
-  setupMapFromUrl(params) {
+  setupMapFromUrl({ params }) {
+    console.log("PPPPPP", params);
+
     const layersOK = /^[ATCK]I?$/.test(params.mapType);
     const layers = layersOK ? params.mapType : 'T';
     const mapType = layers.charAt(0);
@@ -53,6 +59,7 @@ class Main extends React.Component {
     const lat = parseFloat(params.lat);
     const lon = parseFloat(params.lon);
 
+    console.log("BBBBBBBBBB");
     this.refocusMap2(lat, lon, zoom);
   }
 
@@ -70,14 +77,19 @@ class Main extends React.Component {
     const map = this.refs.map.leafletElement;
     const { lat, lng: lon } = map.getCenter();
     const zoom = map.getZoom();
+    console.log("AAAAAAA");
     this.refocusMap2(lat, lon, zoom);
   }
 
   refocusMap2(lat, lon, zoom) {
     const { center: { lat: oldLat, lon: oldLon }, zoom: oldZoom } = this.props;
+
     if (isNaN(lat) || isNaN(lon) || isNaN(zoom) ||
         Math.abs(lat - oldLat) > 0.000001 || Math.abs(lon - oldLon) > 0.000001 || zoom !== oldZoom) {
-      this.props.onMapRefocus(lat || 48.70714, lon || 19.4995, zoom || 8);
+      if (n-- > 0) {
+        console.log(lat, lon, zoom, oldLat, oldLon, oldZoom);
+        this.props.onMapRefocus(lat || 48.70714, lon || 19.4995, zoom || 8);
+      }
     }
   }
 
@@ -210,7 +222,7 @@ class Main extends React.Component {
 Main.propTypes = {
   center: React.PropTypes.object,
   zoom: React.PropTypes.number,
-  params: React.PropTypes.object,
+  match: React.PropTypes.object,
   tool: React.PropTypes.string,
   mapType: React.PropTypes.string,
   overlays: React.PropTypes.array,

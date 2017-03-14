@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { hashHistory, Router, Route } from 'react-router';
+import { Route, HashRouter, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { createLogicMiddleware } from 'redux-logic';
@@ -21,9 +21,13 @@ const store = createStore(reducer, middleware);
 
 render((
   <Provider store={store}>
-    <Router history={hashHistory}>
-      <Route path="/:mapType/:zoom/:lat/:lon" component={Main}/>
-      <Route path="/*" component={Main}></Route>
-    </Router>
+    <HashRouter>
+      <div>
+        <Switch>
+          <Route path="/:mapType/:zoom/:lat/:lon" component={Main}/>
+          <Route path="/" component={Main}/>
+        </Switch>
+      </div>
+    </HashRouter>
   </Provider>
 ), document.getElementById('app'));
