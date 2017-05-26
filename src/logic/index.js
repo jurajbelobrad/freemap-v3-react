@@ -1,6 +1,7 @@
 import routePlannerLogic from 'fm3/logic/routePlannerLogic';
 import elevationChartLogic from 'fm3/logic/elevationChartLogic';
 import elevationMeasurementLogic from 'fm3/logic/elevationMeasurementLogic';
+import areaMeasurementLogic from 'fm3/logic/areaMeasurementLogic';
 import objectsLogic from 'fm3/logic/objectsLogic';
 import searchLogic from 'fm3/logic/searchLogic';
 import storageLogic from 'fm3/logic/storageLogic';
@@ -22,4 +23,5 @@ export default [
   distanceMeasurementExportGpxLogic,
   ...toastsLogic,
   urlLogic,
+  areaMeasurementLogic,
 ];

@@ -50,7 +50,7 @@ export default class Toast extends React.Component {
         onMouseLeave={this.handleMouseLeave}
         onDismiss={this.handleAlertDismiss}
       >
-        <div className="toast-message">{message}</div>
+        <div className="toast-message" dangerouslySetInnerHTML={{ __html: message }} />
         {buttonActions.length > 0 &&
           <div>
             <br />

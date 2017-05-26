@@ -8,7 +8,6 @@ import { areaMeasurementAddPoint, areaMeasurementUpdatePoint, areaMeasurementRem
 import { setMouseCursorToCrosshair, resetMouseCursor } from 'fm3/actions/mapActions';
 import { toastsAdd } from 'fm3/actions/toastsActions';
 
-import { area } from 'fm3/geoutils';
 import mapEventEmitter from 'fm3/emitters/mapEventEmitter';
 import * as FmPropTypes from 'fm3/propTypes';
 
@@ -71,13 +70,6 @@ class AreaMeasurementResult extends React.Component {
   render() {
     const { points } = this.props;
 
-    const areaSize = points.length > 2 ? area(points) : NaN;
-    let northmostPoint = points[0];
-    points.forEach((p) => {
-      if (northmostPoint.lat < p.lat) {
-        northmostPoint = p;
-      }
-    });
     const Icon = L.divIcon;
     const circularIcon = new Icon({ // CircleMarker is not draggable
       iconSize: [14, 14],
@@ -87,22 +79,6 @@ class AreaMeasurementResult extends React.Component {
 
     return (
       <div>
-        {points.length > 2 &&
-        <MarkerWithAutoOpeningPopup
-          interactive={false}
-          opacity={0}
-          position={L.latLng(northmostPoint.lat, northmostPoint.lon)}
-        >
-          <Popup closeButton={false} autoClose={false} autoPan={false}>
-            <span>
-              <div>{nf.format(areaSize)} m<sup>2</sup></div>
-              <div>{nf.format(areaSize / 100)} a</div>
-              <div>{nf.format(areaSize / 10000)} ha</div>
-              <div>{nf.format(areaSize / 1000000)} km<sup>2</sup></div>
-            </span>
-          </Popup>
-        </MarkerWithAutoOpeningPopup>
-        }
         {points.map((p, i) => (
           <Marker
             key={i}
